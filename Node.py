@@ -1,8 +1,14 @@
-import os, sys, argparse,random, time, threading, json
-class Nodes:
+import os, sys, argparse,random, time, threading, json, asyncio
+import grpc
+from Node_pb2_grpc import NodeServicer, NodeStub
+import Node_pb2 as np2
+
+class Nodes():
     def __init__(self, storage_path :str, node_name :str, id :int):
         # NOTE: Indexing for logs start from 1, 0 is reserved for no logs or NULL
+        # NOTE: python -m grpc_tools.protoc -I../../protos --python_out=. --pyi_out=. --grpc_python_out=. ../../protos/helloworld.proto
         # TODO: Figure out how to handle logs (format of log for easy read and write)
+        # TODO: write getter and setter for stubs
         peer_path = "peer.json"
 
         metadata_template = {
@@ -26,7 +32,7 @@ class Nodes:
         self.dump   = None
         self.peers  = None
         self.socket = None
-
+        self.current_leader = None
         # volatile state for node
         self.commit_index = 0
         self.last_applied = 0
@@ -46,7 +52,10 @@ class Nodes:
     def start_server(self):
         # TODO :add listeners for vote, heartbeat etc.
         self.follower_timeout_extension = threading.Event()
+        self.become_follower_signal     = threading.Event()
+        
         self.follower_timeout_thread = threading.Thread(target=self.time_out_callback)
+
     def time_out_callback(self):
         while True:
             while self.follower_timeout_extension.wait(random.random()*5 + 5):
@@ -72,37 +81,51 @@ class Nodes:
             return False
     
     def start_election(self):
-        f = open(self.meta_data,"r")
-        x = json.load(f)
-        f.close()
+        votes = asyncio.run(self.ask_for_votes(self.get_current_term()))
+        if votes > (len(self.peers.keys()) + 2)/2:
+            self.become_leader()
 
-        x["current_term"] += 1
-        x["votedfor"] = self.ID
-
-        f = open(self.meta_data,"w")
-        json.dump(x,f,indent=4)
-        f.close()
-        votes = self.ask_for_votes(x["current_term"])
-        if votes < (len(self.peers.keys()) + 1)/2:
-            return False
-        else:
-            return True
-
-    def ask_for_votes(self,term):
-        votes = 1
+    async def ask_for_votes(self,term):
+        votes = set()
+        tasks = []
         for i in self.peers.keys():
-            if self.send_vote_request(self.ID,self.peers[i],term):
-                votes += 1
-        return votes
+            tasks.append(asyncio.create_task(self.send_vote_request(self.ID,self.peers[i],self.get_current_term())))
+        ret = await asyncio.gather(*tasks)
+        for  i in ret:
+            if (self.current_state == self.STATES["candidate"]) and (ret.term == self.get_current_term()) and ret.granted:
+                votes.add(ret.node_id)
+            elif ret.term > self.get_currrent_term():
+                self.set_current_term(ret.term)
+                self.current_state = self.STATES["follower"]
+                self.set_voted_for(-1)
+        return len(votes)
     
-    def send_vote_request(self,candidate_id,voters_socket,term): 
+    async def send_vote_request(self,candidate_id,voters_socket,term):
         # TODO: write send_vote_request and recieve vote request stubs
-        return False
+        with grpc.insecure_channel(voters_socket) as channel:
+            stub = NodeStub(channel)
+            rs = stub.requestVote(np2.voteRequest(
+                term=term,
+                candidate_id=candidate_id,
+                last_log_index=self.get_last_log_index(),
+                last_log_term=self.get_last_log_term()
+            ))
+        return rs
+
     
     def become_leader(self):
         # TODO: what happens after we become leader?
+        self.current_state = self.STATES["leader"]
+        self.current_leader = self.ID
+        for i in self.peers.keys():
+            self.next_index[i] = self.get_last_log_index
+            self.match_index[i] = 0
+            self.replicate_logs(self.ID,i)
         return
 
+    def replicate_logs(self, my_id,peer_id):
+        return
+    
     def create_dir(self,d_path: str):
         if not os.path.exists(d_path):
             os.mkdir(d_path)

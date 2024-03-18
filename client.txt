@@ -1,0 +1,12 @@
+client operations:
+    Set(Key, Value)
+    Get(Key)
+
+Variables:
+    Node_info: //all Nodes
+        Node_IP
+        port
+
+    Leader_Info: // can be outdated
+        IP_address
+        port

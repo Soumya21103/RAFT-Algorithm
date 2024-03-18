@@ -1,0 +1,106 @@
+Storage locations:
+    log_node_<no>/log.txt
+    log_node_<no>/metadata.txt
+    log_node_<no>/dump.txt
+
+The data (logs) will only store all the WRITE OPERATIONS and NO-OP operations as it is, along with the term number mentioned in the Logs section. An example log.txt file:    
+log.txt:
+    NO-OP 0
+    SET name1 Jaggu 0 //[SET {key} {value} {term}]
+    SET name2 Raju 0
+    SET name3 Bheem 1
+
+VARIABLE:
+    PERSISTENT: // metadata.txt
+        current_term // last term server has seen
+        voted_for // candidate_ID that recieved vote currently
+        logs[] // first index is 1
+
+    TRANSIENT:
+        commit_index  // index of higest log entry known to be commited (initialy 0)
+        last_applied // index of higest log entry aplied to state machine (initialy 0)
+        lease_time_leader
+
+    LEADER_SPECIFIC_TRANSIENT: (Reinitialize after every election)
+        next_index[]
+        match_index[]
+        lease_timer
+
+
+FUNCTIONS:
+    get_remaining_lease_time ->
+        RETURNS:
+            time_remaining
+
+       
+    reject_request -> (acording to node, can return NULL if no Leader);
+        NEEDS:
+            message
+            leader_name
+        RETURNS:
+            status,
+            message, 
+            current_leader_name 
+
+    accept_request ->
+        NEEDS:
+            message
+            leader_name
+        RETURNS:
+            status = true, 
+            message = "SUCESS",
+            current_leader_name
+
+    RPC append_entries_request -> (invoked by the leader to replicate log entries, also used as heart beat)
+        SENDS:
+            term
+            IP_Leader
+            prev_log_index
+            prev_log_term
+            entries[] // list of log entries to store 
+            leader_commit // commit_index of leader
+            lease_interval // if leader starts lease timer
+        GETS:
+            term current: term for leader to update itself
+            status: true if follower contains entry matching previous log index and previous log term
+    
+    RPC apend_entries_reciever -> (returns append entries calls)
+        GETS:
+            term
+            IP_Leader
+            prev_log_index
+            prev_log_term
+            entries[] // list of log entries to store 
+            leader_commit // commit_index of leader
+        SENDS:
+            term current
+            status
+        DOES:
+            return status = false, if term < current_term
+            return status = false, if prev_log_index = NULL, or prev_log_term != our_prev_log_term
+            delete logs[index:], if log[index].term != term
+            append entries to log, if entry not already in log
+            set commit_index = min(leader_commit,index of last new entry) if leader_commit > self.commit_index
+    
+    RPC request_votes -> 
+        SENDS:
+            term
+            candidate_IP or ID
+            last_log_index
+            last_log_term
+            lease_time_leader
+        GETS:
+            term:
+            vote_granted: bool
+
+    RPC response_votes ->
+        DOES:
+            return vote_grated = false, if gets.term < current_term 
+            return vote_grated = true, if (voted_for = NULL or gets.candidate_ID) and (self.last_log_index <= gets.last_log_index) else return false
+
+
+
+
+
+
+

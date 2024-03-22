@@ -19,10 +19,10 @@ class NodeStub(object):
                 request_serializer=Node__pb2.voteRequest.SerializeToString,
                 response_deserializer=Node__pb2.voteResponse.FromString,
                 )
-        self.appendEntries = channel.unary_unary(
-                '/Node.Node/appendEntries',
-                request_serializer=Node__pb2.appendEntriesRequest.SerializeToString,
-                response_deserializer=Node__pb2.appendEntriesResponse.FromString,
+        self.requestLog = channel.unary_unary(
+                '/Node.Node/requestLog',
+                request_serializer=Node__pb2.logRequest.SerializeToString,
+                response_deserializer=Node__pb2.logResponse.FromString,
                 )
 
 
@@ -35,7 +35,7 @@ class NodeServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def appendEntries(self, request, context):
+    def requestLog(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -49,10 +49,10 @@ def add_NodeServicer_to_server(servicer, server):
                     request_deserializer=Node__pb2.voteRequest.FromString,
                     response_serializer=Node__pb2.voteResponse.SerializeToString,
             ),
-            'appendEntries': grpc.unary_unary_rpc_method_handler(
-                    servicer.appendEntries,
-                    request_deserializer=Node__pb2.appendEntriesRequest.FromString,
-                    response_serializer=Node__pb2.appendEntriesResponse.SerializeToString,
+            'requestLog': grpc.unary_unary_rpc_method_handler(
+                    servicer.requestLog,
+                    request_deserializer=Node__pb2.logRequest.FromString,
+                    response_serializer=Node__pb2.logResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -82,7 +82,7 @@ class Node(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def appendEntries(request,
+    def requestLog(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,8 +92,8 @@ class Node(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Node.Node/appendEntries',
-            Node__pb2.appendEntriesRequest.SerializeToString,
-            Node__pb2.appendEntriesResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Node.Node/requestLog',
+            Node__pb2.logRequest.SerializeToString,
+            Node__pb2.logResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

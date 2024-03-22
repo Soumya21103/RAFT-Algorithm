@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nNode.proto\x12\x04Node\"`\n\x0bvoteRequest\x12\x0c\n\x04term\x18\x01 \x01(\x03\x12\x14\n\x0c\x63\x61ndidate_id\x18\x02 \x01(\x03\x12\x16\n\x0elast_log_index\x18\x03 \x01(\x03\x12\x15\n\rlast_log_term\x18\x04 \x01(\x03\">\n\x0cvoteResponse\x12\x0c\n\x04term\x18\x01 \x01(\x03\x12\x0f\n\x07granted\x18\x02 \x01(\x08\x12\x0f\n\x07node_id\x18\x03 \x01(\x03\"\x16\n\x14\x61ppendEntriesRequest\"\x17\n\x15\x61ppendEntriesResponse2\x86\x01\n\x04Node\x12\x34\n\x0brequestVote\x12\x11.Node.voteRequest\x1a\x12.Node.voteResponse\x12H\n\rappendEntries\x12\x1a.Node.appendEntriesRequest\x1a\x1b.Node.appendEntriesResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nNode.proto\x12\x04Node\"R\n\x0bvoteRequest\x12\x0e\n\x06\x63_term\x18\x01 \x01(\x03\x12\x0c\n\x04\x63_id\x18\x02 \x01(\x03\x12\x11\n\tc_log_len\x18\x03 \x01(\x03\x12\x12\n\nc_log_term\x18\x04 \x01(\x03\">\n\x0cvoteResponse\x12\x0c\n\x04term\x18\x01 \x01(\x03\x12\x0f\n\x07granted\x18\x02 \x01(\x08\x12\x0f\n\x07node_id\x18\x03 \x01(\x03\"_\n\nlogRequest\x12\x0c\n\x04l_id\x18\x01 \x01(\x03\x12\x0e\n\x06\x63_term\x18\x02 \x01(\x03\x12\x10\n\x08pref_len\x18\x03 \x01(\x03\x12\x11\n\tpref_term\x18\x04 \x01(\x03\x12\x0e\n\x06suffix\x18\x05 \x03(\t\"\r\n\x0blogResponse2o\n\x04Node\x12\x34\n\x0brequestVote\x12\x11.Node.voteRequest\x1a\x12.Node.voteResponse\x12\x31\n\nrequestLog\x12\x10.Node.logRequest\x1a\x11.Node.logResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -22,13 +22,13 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'Node_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _globals['_VOTEREQUEST']._serialized_start=20
-  _globals['_VOTEREQUEST']._serialized_end=116
-  _globals['_VOTERESPONSE']._serialized_start=118
-  _globals['_VOTERESPONSE']._serialized_end=180
-  _globals['_APPENDENTRIESREQUEST']._serialized_start=182
-  _globals['_APPENDENTRIESREQUEST']._serialized_end=204
-  _globals['_APPENDENTRIESRESPONSE']._serialized_start=206
-  _globals['_APPENDENTRIESRESPONSE']._serialized_end=229
-  _globals['_NODE']._serialized_start=232
-  _globals['_NODE']._serialized_end=366
+  _globals['_VOTEREQUEST']._serialized_end=102
+  _globals['_VOTERESPONSE']._serialized_start=104
+  _globals['_VOTERESPONSE']._serialized_end=166
+  _globals['_LOGREQUEST']._serialized_start=168
+  _globals['_LOGREQUEST']._serialized_end=263
+  _globals['_LOGRESPONSE']._serialized_start=265
+  _globals['_LOGRESPONSE']._serialized_end=278
+  _globals['_NODE']._serialized_start=280
+  _globals['_NODE']._serialized_end=391
 # @@protoc_insertion_point(module_scope)

@@ -120,6 +120,8 @@ class Nodes():
         for i in self.peers.keys():
             self.next_index[i] = self.get_last_log_index
             self.match_index[i] = 0
+
+        while True:
             self.replicate_logs(self.ID,i)
         return
 

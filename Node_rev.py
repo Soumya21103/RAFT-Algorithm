@@ -1,6 +1,8 @@
 import os, asyncio
-import threading, json, math
+import threading, json, math, random
+import Node_pb2_grpc as ngpc
 from Node_pb2_grpc import NodeStub
+from concurrent import futures
 import Node_pb2 as gnd
 import grpc
 STATES = {
@@ -8,6 +10,12 @@ STATES = {
     "can": 1,
     "lea": 2
 }
+
+class NodeServicer(ngpc.NodeServicer):
+    def __init__(self,parent_node) -> None:
+        super().__init__()
+        self.pnode = parent_node
+
 class Node:
     # if not sufficient load next 10 lines check for appends do till start of file is not reached
     # NOTE: ORDER OF LOCKS SHOULD ALWAYS BE Meta, Logs, Dumps NOT THE OTHER WAY AROUND
@@ -33,7 +41,7 @@ class Node:
         self.election_timer = None
 
         self.lease_released = None
-        self.got_append_req = None
+        self.got_replicate_req = threading.Event()
 
         self.vote_recieved = set()
         self.sent_length  = dict()
@@ -91,10 +99,28 @@ class Node:
     
     def start_server(self):
         tasks = [self.follower_task,self.candidate_task,self.leader_task]
-        tasks[self.state]()
+
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        ngpc.add_NodeServicer_to_server(NodeServicer(self),server)
+        server.add_insecure_port(self.socket)
+        server.start()
+        try:
+            while True:
+                tasks[self.state]()
+        except KeyboardInterrupt as e:
+            server.stop()
+            print("closing_server")
+
+        server.wait_for_termination()
+        print("server closed")
         return
     
     def follower_task(self):
+        if self.got_replicate_req.wait(random.random()*5 + 5):
+            self.got_replicate_req.clear()
+        else:
+            self.state = STATES["can"]
+            print("Timeout occured")
         return
     
     def candidate_task(self):
@@ -116,6 +142,10 @@ class Node:
         asyncio.run(self.election_handler())
         return
     
+    def leader_task(self):
+        
+        return
+     
     async def election_handler(self,c_id,c_term,c_log_len,c_log_term):
         TIMEOUT = 5
         votes = 1
@@ -185,11 +215,11 @@ class Node:
                 pref_term=prefix_term,
                 suffix=suffix
             ))
+            self.log_response(res)
 
-
-    def leader_task(self):
+    def log_response(self):
         return
-     
+    
     def on_general_timeout(self):
         self.state = STATES["can"]
         return

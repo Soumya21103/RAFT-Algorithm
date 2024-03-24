@@ -42,6 +42,7 @@ class Node:
 
         self.lease_released = None
         self.got_replicate_req = threading.Event()
+        self.got_broadcast_req = threading.Event()
 
         self.vote_recieved = set()
         self.sent_length  = dict()
@@ -143,12 +144,25 @@ class Node:
         return
     
     def leader_task(self):
-        
+        TIMEOUT = 5
+        ret = asyncio.run(self.replication_call(TIMEOUT))
+        if ret == False:
+            return
+        self.got_broadcast_req.wait(TIMEOUT)
+        self.got_broadcast_req.clear()
         return
-     
+
+    
+    async def replication_call(self,timeout) -> bool:
+        tasks = [asyncio.create_task(self.replicate_logs(self.ID,i)) for i in self.peers.keys()]
+        ret = await asyncio.gather(tasks)
+        if False in ret:
+            return False
+        return True
+    
     async def election_handler(self,c_id,c_term,c_log_len,c_log_term):
         TIMEOUT = 5
-        votes = 1
+        votes   = 1
         res = await (asyncio.gather([
                     asyncio.create_task(
                         self.vote_request(i,self.ID,c_id,c_term,c_log_len,c_log_term,TIMEOUT)
@@ -168,10 +182,6 @@ class Node:
             if len(self.vote_recieved) >= math.ceil((len(self.peers)+1)/2):
                 self.state = STATES["lea"]
                 self.current_leader = self.ID
-                for i in self.peers.keys():
-                    self.sent_length[i] = c_log_len
-                    self.acked_length[i] = 0
-                    self.replicate_logs() # TODO: implement replicate logs and use asyncio
                 return
         return 
         
@@ -195,6 +205,7 @@ class Node:
         return res
     
     async def replicate_logs(self,l_id,f_id) -> bool:
+        # returns if the logs are up to date after call
         prefix_len = self.sent_length[f_id]
         with self.m_lock:
             f = open(self.m_path,"r")
@@ -217,7 +228,8 @@ class Node:
             ))
             self.log_response(res)
 
-    def log_response(self):
+    def log_response(self,result : gnd.logResponse) -> bool:
+        ''' returns if replicate_log need to be called again'''
         return
     
     def on_general_timeout(self):

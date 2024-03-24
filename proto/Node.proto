@@ -25,9 +25,13 @@ message logRequest {
     int64 c_term = 2;
     int64 pref_len = 3;
     int64 pref_term = 4;
-    repeated string suffix = 5;
+    repeated string suffix = 6;
+    int64 l_commit = 5;
 }
 
 message logResponse {
-    
+    int64 f_id = 1;
+    int64 term = 2;
+    int64 ack = 3;
+    bool sucess = 4;
 }

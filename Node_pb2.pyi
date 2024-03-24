@@ -28,19 +28,29 @@ class voteResponse(_message.Message):
     def __init__(self, term: _Optional[int] = ..., granted: bool = ..., node_id: _Optional[int] = ...) -> None: ...
 
 class logRequest(_message.Message):
-    __slots__ = ("l_id", "c_term", "pref_len", "pref_term", "suffix")
+    __slots__ = ("l_id", "c_term", "pref_len", "pref_term", "suffix", "l_commit")
     L_ID_FIELD_NUMBER: _ClassVar[int]
     C_TERM_FIELD_NUMBER: _ClassVar[int]
     PREF_LEN_FIELD_NUMBER: _ClassVar[int]
     PREF_TERM_FIELD_NUMBER: _ClassVar[int]
     SUFFIX_FIELD_NUMBER: _ClassVar[int]
+    L_COMMIT_FIELD_NUMBER: _ClassVar[int]
     l_id: int
     c_term: int
     pref_len: int
     pref_term: int
     suffix: _containers.RepeatedScalarFieldContainer[str]
-    def __init__(self, l_id: _Optional[int] = ..., c_term: _Optional[int] = ..., pref_len: _Optional[int] = ..., pref_term: _Optional[int] = ..., suffix: _Optional[_Iterable[str]] = ...) -> None: ...
+    l_commit: int
+    def __init__(self, l_id: _Optional[int] = ..., c_term: _Optional[int] = ..., pref_len: _Optional[int] = ..., pref_term: _Optional[int] = ..., suffix: _Optional[_Iterable[str]] = ..., l_commit: _Optional[int] = ...) -> None: ...
 
 class logResponse(_message.Message):
-    __slots__ = ()
-    def __init__(self) -> None: ...
+    __slots__ = ("f_id", "term", "ack", "sucess")
+    F_ID_FIELD_NUMBER: _ClassVar[int]
+    TERM_FIELD_NUMBER: _ClassVar[int]
+    ACK_FIELD_NUMBER: _ClassVar[int]
+    SUCESS_FIELD_NUMBER: _ClassVar[int]
+    f_id: int
+    term: int
+    ack: int
+    sucess: bool
+    def __init__(self, f_id: _Optional[int] = ..., term: _Optional[int] = ..., ack: _Optional[int] = ..., sucess: bool = ...) -> None: ...

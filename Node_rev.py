@@ -5,6 +5,7 @@ from Node_pb2_grpc import NodeStub
 from concurrent import futures
 import Node_pb2 as gnd
 import grpc
+
 STATES = {
     "fol": 0,
     "can": 1,
@@ -14,7 +15,85 @@ STATES = {
 class NodeServicer(ngpc.NodeServicer):
     def __init__(self,parent_node) -> None:
         super().__init__()
-        self.pnode = parent_node
+        self.pnode: Node = parent_node
+    
+    def requestLog(self, request: gnd.logRequest, context):
+        #TODO: Something about election timer seems odd
+        self.pnode.got_replicate_req.set()
+        with self.pnode.m_lock:
+            f = open(self.pnode.m_path,"r")
+            current_term = int(f.readline().split()[-1])
+            voted_for = int(f.readline().split()[-1])
+            f.close()
+            pass
+
+        with self.pnode.l_lock:
+            l_len, _ = self.pnode.get_log_len_and_term()
+            lp_term = self.pnode.get_log_and_term_at_ind(request.pref_len - 1)
+            pass
+        
+        if request.c_term > current_term:
+            current_term = request.c_term
+            voted_for = -1
+
+        if request.c_term == current_term:
+            self.pnode.state = STATES["fol"]
+            self.pnode.current_leader = request.l_id
+        
+        log_ok = (l_len >= request.pref_len) and (request.pref_len == 0 or lp_term == request.pref_term)
+        if request.c_term == current_term and log_ok:
+            self.pnode.append_entries(request.pref_len,request.l_commit,list(request.suffix)) #TODO: implement apend entries
+            ack = request.pref_len + len(request.suffix)
+            with self.pnode.m_lock:
+                f = open(self.pnode.m_path,"w")
+                f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
+                f.close()
+                pass
+            return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=ack,sucess=True)
+        else:
+            with self.pnode.m_lock:
+                f = open(self.pnode.m_path,"w")
+                f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
+                f.close()
+                pass
+            return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=0,sucess=False)
+    
+    def requestVote(self, request: gnd.voteRequest, context):
+        with self.pnode.m_lock:
+            f = open(self.pnode.m_path,"r")
+            text = [i.split() for i in f.readlines()]
+            f.close()
+            current_term = int(text[0][-1])
+            voted_for = int(text[1][-1])
+            pass
+
+        with self.pnode.l_lock:
+            log_len, last_term = self.pnode.get_log_len_and_term()
+            pass
+
+        if request.c_term > current_term:
+            current_term = request.c_term
+            self.pnode.state = STATES["fol"]
+            voted_for = -1
+        
+        log_ok = (request.c_log_term > last_term) or (request.c_log_term == last_term and request.c_log_len >= log_len)
+
+        if(request.c_term == current_term and log_ok and (voted_for in [request.c_id,-1])):
+            voted_for = request.c_id
+            with self.pnode.m_lock:
+                f = open(self.pnode.m_path,"w")
+                f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
+                f.close()
+                pass
+            return gnd.voteResponse(term = current_term, granted=True,node_id=self.pnode.ID)
+        else:
+            with self.pnode.m_lock:
+                    f = open(self.pnode.m_path,"w")
+                    f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
+                    f.close()
+                    pass
+            return gnd.voteResponse(term = current_term, granted=False,node_id=self.pnode.ID)
+        
 
 class Node:
     # if not sufficient load next 10 lines check for appends do till start of file is not reached
@@ -27,9 +106,6 @@ class Node:
         self.l_path = os.path.join(self.storage_path,"logs.txt")
         self.d_path = os.path.join(self.storage_path,"dump.txt")
         self.peers = None
-        # self.logs_fd = None
-        # self.dump_fd = None
-        # self.meta_fd = None
 
         self.m_lock = threading.Lock()
         self.l_lock = threading.Lock()
@@ -76,11 +152,6 @@ class Node:
         f.close()
         f = open(self.d_path,"w")
         f.close()
-
-        # fds for persistent variables
-        # self.logs_fd = open(self.l_path,"r+")
-        # self.meta_fd = open(self.m_path,"r+")
-        # self.dump_fd = open(self.d_path,"r+")
         return 
     
     def load_peers(self,p_path: str):
@@ -211,6 +282,7 @@ class Node:
             f = open(self.m_path,"r")
             current_term = f.readline().split()[-1]
             f.close()
+            pass
         with self.l_lock:
             suffix = self.get_log_suffix(prefix_len)
             prefix_term = 0
@@ -226,10 +298,35 @@ class Node:
                 pref_term=prefix_term,
                 suffix=suffix
             ))
-            self.log_response(res)
+        return self.log_response(res)
 
     def log_response(self,result : gnd.logResponse) -> bool:
-        ''' returns if replicate_log need to be called again'''
+        ''' returns False if replicate_log need to be called again'''
+        with self.m_lock:
+            f = open(self.m_path,"r")
+            current_term = f.readline().split()[-1]
+            f.close()
+            pass
+        if(result.term == current_term and self.state == STATES["lea"]):
+            if result.sucess == True and result.ack > self.acked_length[result.f_id]:
+                self.sent_length[result.f_id]  = result.ack
+                self.acked_length[result.f_id] = result.ack
+                self.commit_log_entries()
+            elif self.sent_length[result.f_id] > 0:
+                self.sent_length[result.f_id] -= 1
+                return False
+        elif result.term > current_term:
+            with self.m_lock:
+                f = open(self.m_path,"w")
+                f.writelines([f"current_term {result.term}\n",f"voted_for {-1}\n"])
+                f.close()
+                pass
+            self.state = STATES["fol"]
+        return True
+    
+    def commit_log_entries(self):
+        # TODO: Implement this
+        
         return
     
     def on_general_timeout(self):
@@ -256,7 +353,6 @@ class Node:
             term = int(x[ind].split()[-1])
         return term
     
-    
     def get_log_suffix(self,pref_len:int):
         f = open(self.l_path,"r")
         c = ''
@@ -267,8 +363,9 @@ class Node:
             c = f.readline()
             ret.append(c.strip())
         return ret
-        
-        
-        
+    
+    def append_entries(self,p_len,l_com,suffix):
+        #TODO: Implement this
+        return
 
         

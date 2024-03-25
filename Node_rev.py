@@ -5,7 +5,7 @@ from Node_pb2_grpc import NodeStub
 from concurrent import futures
 import Node_pb2 as gnd
 import grpc
-import argparse
+import sys
 '''
 TODO: Stuff remaining to do
 1. implement Client 
@@ -59,6 +59,7 @@ class NodeServicer(ngpc.NodeServicer):
                 f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                 f.close()
                 pass
+            print(f"NODE {self.pnode.ID}: request log success from leader {request.l_id}")
             return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=ack,sucess=True)
         else:
             with self.pnode.m_lock:
@@ -66,6 +67,7 @@ class NodeServicer(ngpc.NodeServicer):
                 f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                 f.close()
                 pass
+            print(f"NODE {self.pnode.ID}: request log failiure from leader {request.l_id}")
             return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=0,sucess=False)
     
     def requestVote(self, request: gnd.voteRequest, context):
@@ -81,7 +83,7 @@ class NodeServicer(ngpc.NodeServicer):
         with self.pnode.l_lock:
             log_len, last_term = self.pnode.get_log_len_and_term()
             pass
-
+        
         if request.c_term > current_term:
             current_term = request.c_term
             self.pnode.state = STATES["fol"]
@@ -96,6 +98,7 @@ class NodeServicer(ngpc.NodeServicer):
                 f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                 f.close()
                 pass
+            print(f"NODE {self.pnode.ID}: gave vote to {request.c_id}")
             return gnd.voteResponse(term = current_term, granted=True,node_id=self.pnode.ID)
         else:
             with self.pnode.m_lock:
@@ -103,6 +106,7 @@ class NodeServicer(ngpc.NodeServicer):
                     f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                     f.close()
                     pass
+            print(f"NODE {self.pnode.ID}: did not give vote to{request.c_id}")
             return gnd.voteResponse(term = current_term, granted=False,node_id=self.pnode.ID)
         
 
@@ -207,7 +211,7 @@ class Node:
             self.got_replicate_req.clear()
         else:
             self.state = STATES["can"]
-            print("Timeout occured")
+            print(f"Node {self.ID}: Timeout occured")
         return
     
     def candidate_task(self):
@@ -223,6 +227,7 @@ class Node:
             f.close()
             pass
         
+        print(f"NODE {self.ID}: starting election")
         with self.l_lock:
             log_len, last_term = self.get_log_len_and_term()
             pass
@@ -234,14 +239,14 @@ class Node:
         ret = asyncio.run(self.replication_call(TIMEOUT))
         if ret == False:
             return
-        self.got_broadcast_req.wait(TIMEOUT)
-        self.got_broadcast_req.clear()
+        if self.got_broadcast_req.wait(TIMEOUT):
+            self.got_broadcast_req.clear()
         return
 
     
     async def replication_call(self,timeout) -> bool:
         tasks = [asyncio.create_task(self.replicate_logs(self.ID,i)) for i in self.peers.keys()]
-        ret = await asyncio.gather(tasks)
+        ret = await asyncio.gather(*tasks)
         if False in ret:
             return False
         return True
@@ -254,21 +259,29 @@ class Node:
                         self.vote_request(i,c_id,c_term,c_log_len,c_log_term,TIMEOUT)
                         ) for i in self.peers.keys()
                     ]))
-        res = [i for i in res if i != None]
+        res: list[gnd.voteResponse] = [i for i in res if i != None]
         for i in res:
-            if gnd.voteResponse.term == c_term and gnd.voteResponse.granted:
-                self.vote_recieved.add(gnd.voteResponse.node_id)
-            elif gnd.voteResponse.term > c_term:
+            if i.term == c_term and i.granted:
+                self.vote_recieved.add(i.node_id)
+            elif i.term > c_term:
+                print(f"NODE {self.ID}: becoming follower")
                 self.state = STATES["fol"]
                 with self.m_lock:
                     f = open(self.m_path,"w")
-                    f.writelines('current_term '+str(gnd.voteResponse.term)+'\n','voted_for '+str(-1)+'\n')
+                    f.writelines('current_term '+str(i.term)+'\n','voted_for '+str(-1)+'\n')
                     f.close()
                     pass
                 return
             if len(self.vote_recieved) >= math.ceil((len(self.peers)+1)/2):
+                print(f"NODE {self.ID}: becoming leader")
                 self.state = STATES["lea"]
                 self.current_leader = self.ID
+                with self.l_lock:
+                    log_len,_ = self.get_log_len_and_term()
+                    pass
+                for i in self.peers.keys():
+                    self.sent_length[i] = log_len
+                    self.acked_length[i] = 0
                 return
         return 
         
@@ -299,7 +312,7 @@ class Node:
         prefix_len = self.sent_length[f_id]
         with self.m_lock:
             f = open(self.m_path,"r")
-            current_term = f.readline().split()[-1]
+            current_term = int(f.readline().split()[-1])
             f.close()
             pass
         with self.l_lock:
@@ -308,22 +321,26 @@ class Node:
             if prefix_len > 0:
                 prefix_term = self.get_log_and_term_at_ind(prefix_len -1)
             pass
-        with grpc.insecure_channel(self.peers(f_id)) as channel:
-            stub = NodeStub(channel=channel)
-            res = stub.requestLog(gnd.logRequest(
-                l_id=l_id,
-                c_term=current_term,
-                pref_len=prefix_len,
-                pref_term=prefix_term,
-                suffix=suffix
-            ))
+        try:
+            with grpc.insecure_channel(self.peers[f_id]) as channel:
+                stub = NodeStub(channel=channel)
+                res = stub.requestLog(gnd.logRequest(
+                    l_id=l_id,
+                    c_term=current_term,
+                    pref_len=prefix_len,
+                    pref_term=prefix_term,
+                    suffix=suffix
+                ))
+        except grpc.RpcError as e:
+            print(f"Node {f_id}: may have crashed")
+            return None
         return self.log_response(res)
 
     def log_response(self,result : gnd.logResponse) -> bool:
         ''' returns False if replicate_log need to be called again'''
         with self.m_lock:
             f = open(self.m_path,"r")
-            current_term = f.readline().split()[-1]
+            current_term = int(f.readline().split()[-1])
             f.close()
             pass
         if(result.term == current_term and self.state == STATES["lea"]):
@@ -345,6 +362,7 @@ class Node:
     
     def commit_log_entries(self):
         # TODO: Implement this
+        print("commiting entries")
         def ack_len(length):
             return len([i for i in self.acked_length.keys() if self.acked_length[i] >= length])
         
@@ -405,16 +423,15 @@ class Node:
     
     def append_entries(self,p_len,l_com,suffix: list[str]):
         #TODO: Implement this
+        print("appending entries")
         with self.l_lock:
             log_len, _ = self.get_log_len_and_term()
 
             if len(suffix) > 0 and log_len > p_len:
                 index = min(log_len,p_len+len(suffix)) - 1
-
-            index_term = self.get_log_and_term_at_ind(index)
-
-            if index_term != int(suffix[index-p_len].split()[-1]):
-                self.delete_log_from_index(p_len - 1)
+                index_term = self.get_log_and_term_at_ind(index)
+                if index_term != int(suffix[index-p_len].split()[-1]):
+                    self.delete_log_from_index(p_len - 1)
 
             if p_len + len(suffix) > log_len:
                 f = open(self.l_path,"a")
@@ -433,4 +450,5 @@ class Node:
         f.close()
 
 if __name__ == "__main__":
-    Node(node_id=0,storage_path="./stp",did_restart=False).start_server()
+    Node(node_id=int(sys.argv[1]),storage_path=sys.argv[2],did_restart=False).start_server()
+

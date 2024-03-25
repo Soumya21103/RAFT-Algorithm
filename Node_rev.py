@@ -5,7 +5,17 @@ from Node_pb2_grpc import NodeStub
 from concurrent import futures
 import Node_pb2 as gnd
 import grpc
+import argparse
+'''
+TODO: Stuff remaining to do
+1. implement Client 
+2. Debug connections
+3. add code for dump and log
+4. implement leader lease
 
+NOTE:
+1. Didn't implement election timer properly
+'''
 STATES = {
     "fol": 0,
     "can": 1,
@@ -42,7 +52,7 @@ class NodeServicer(ngpc.NodeServicer):
         
         log_ok = (l_len >= request.pref_len) and (request.pref_len == 0 or lp_term == request.pref_term)
         if request.c_term == current_term and log_ok:
-            self.pnode.append_entries(request.pref_len,request.l_commit,list(request.suffix)) #TODO: implement apend entries
+            self.pnode.append_entries(request.pref_len,request.l_commit,list(request.suffix))
             ack = request.pref_len + len(request.suffix)
             with self.pnode.m_lock:
                 f = open(self.pnode.m_path,"w")
@@ -59,6 +69,7 @@ class NodeServicer(ngpc.NodeServicer):
             return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=0,sucess=False)
     
     def requestVote(self, request: gnd.voteRequest, context):
+        self.pnode.got_replicate_req.set()
         with self.pnode.m_lock:
             f = open(self.pnode.m_path,"r")
             text = [i.split() for i in f.readlines()]
@@ -100,7 +111,7 @@ class Node:
     # NOTE: ORDER OF LOCKS SHOULD ALWAYS BE Meta, Logs, Dumps NOT THE OTHER WAY AROUND
     def __init__(self,node_id,storage_path,did_restart):
 
-        self.ID = node_id
+        self.ID: int = node_id
         self.storage_path = storage_path
         self.m_path = os.path.join(self.storage_path,"metadata.txt")
         self.l_path = os.path.join(self.storage_path,"logs.txt")
@@ -157,8 +168,12 @@ class Node:
     def load_peers(self,p_path: str):
         try:
             f = open(p_path,"r")
-            self.peers = json.load(f)
+            temp = json.load(f)
             f.close()
+            self.peers = dict()
+            for i in temp.keys():
+                self.peers[int(i)] = temp[i]
+            
         except FileNotFoundError:
             raise FileNotFoundError("no list of peers given")
         
@@ -180,7 +195,7 @@ class Node:
             while True:
                 tasks[self.state]()
         except KeyboardInterrupt as e:
-            server.stop()
+            server.stop(0)
             print("closing_server")
 
         server.wait_for_termination()
@@ -209,9 +224,9 @@ class Node:
             pass
         
         with self.l_lock:
-            _, last_term = self.get_log_len_and_term()
+            log_len, last_term = self.get_log_len_and_term()
             pass
-        asyncio.run(self.election_handler())
+        asyncio.run(self.election_handler(self.ID,current_term,log_len,last_term))
         return
     
     def leader_task(self):
@@ -234,11 +249,12 @@ class Node:
     async def election_handler(self,c_id,c_term,c_log_len,c_log_term):
         TIMEOUT = 5
         votes   = 1
-        res = await (asyncio.gather([
+        res = await (asyncio.gather(*[
                     asyncio.create_task(
-                        self.vote_request(i,self.ID,c_id,c_term,c_log_len,c_log_term,TIMEOUT)
+                        self.vote_request(i,c_id,c_term,c_log_len,c_log_term,TIMEOUT)
                         ) for i in self.peers.keys()
                     ]))
+        res = [i for i in res if i != None]
         for i in res:
             if gnd.voteResponse.term == c_term and gnd.voteResponse.granted:
                 self.vote_recieved.add(gnd.voteResponse.node_id)
@@ -258,6 +274,7 @@ class Node:
         
 
     async def vote_request(self,s_id,c_id,c_term,c_log_len,c_log_term,e_timeout) -> gnd.voteResponse:
+        res = None
         try:
             with grpc.insecure_channel(self.peers[s_id], options=[('grpc.connect_timeout_ms', e_timeout*1000),]) as channel:
                 stub = NodeStub(channel)
@@ -272,7 +289,9 @@ class Node:
                 if e.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
                     print(f"Timeout occurred for Node: {s_id}: ", e.details())
                     return None
-            raise e
+                else:
+                    print(f"UNable to connect to remote host",e.details())
+            
         return res
     
     async def replicate_logs(self,l_id,f_id) -> bool:
@@ -326,7 +345,27 @@ class Node:
     
     def commit_log_entries(self):
         # TODO: Implement this
+        def ack_len(length):
+            return len([i for i in self.acked_length.keys() if self.acked_length[i] >= length])
         
+        with self.m_lock:
+            f = open(self.m_path,"r")
+            current_term = int(f.readline().split()[-1])
+            f.close()
+            pass
+        
+        with self.l_lock:
+            log_len,_ = self.get_log_len_and_term()
+            pass
+
+        min_acks = math.ceil((len(self.peers.keys())+1)/2)
+        ready = set([i for i in range(1,log_len+1) if ack_len(i) > min_acks])
+
+        with self.l_lock:
+            log_term = self.get_log_and_term_at_ind(max(ready) -1)
+            pass
+        if (len(ready) != 0) and (max(ready) > self.commit_len) and (log_term == current_term):
+            self.commit_len = max(ready)
         return
     
     def on_general_timeout(self):
@@ -364,8 +403,34 @@ class Node:
             ret.append(c.strip())
         return ret
     
-    def append_entries(self,p_len,l_com,suffix):
+    def append_entries(self,p_len,l_com,suffix: list[str]):
         #TODO: Implement this
-        return
+        with self.l_lock:
+            log_len, _ = self.get_log_len_and_term()
 
-        
+            if len(suffix) > 0 and log_len > p_len:
+                index = min(log_len,p_len+len(suffix)) - 1
+
+            index_term = self.get_log_and_term_at_ind(index)
+
+            if index_term != int(suffix[index-p_len].split()[-1]):
+                self.delete_log_from_index(p_len - 1)
+
+            if p_len + len(suffix) > log_len:
+                f = open(self.l_path,"a")
+                f.writelines([i.strip() + '\n' for i in suffix[log_len-p_len:]])
+                f.close()
+            pass
+        if l_com > self.commit_len:
+            self.commit_len = l_com
+        return
+    
+    def delete_log_from_index(self,index):
+        f = open(self.l_path,"r+")
+        for i in range(index):
+            f.readline()
+        f.truncate()
+        f.close()
+
+if __name__ == "__main__":
+    Node(node_id=0,storage_path="./stp",did_restart=False).start_server()

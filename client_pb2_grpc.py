@@ -14,50 +14,17 @@ class clientStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetLeader = channel.unary_unary(
-                '/client.client/GetLeader',
-                request_serializer=client__pb2.GetLeaderRequest.SerializeToString,
-                response_deserializer=client__pb2.GetLeaderResponse.FromString,
-                )
-        self.GetLeaderInfo = channel.unary_unary(
-                '/client.client/GetLeaderInfo',
-                request_serializer=client__pb2.GetLeaderInfoRequest.SerializeToString,
-                response_deserializer=client__pb2.GetLeaderInfoResponse.FromString,
-                )
-        self.Get = channel.unary_unary(
-                '/client.client/Get',
-                request_serializer=client__pb2.GetRequest.SerializeToString,
-                response_deserializer=client__pb2.GetResponse.FromString,
-                )
-        self.Set = channel.unary_unary(
-                '/client.client/Set',
-                request_serializer=client__pb2.SetRequest.SerializeToString,
-                response_deserializer=client__pb2.SetResponse.FromString,
+        self.ServeClient = channel.unary_unary(
+                '/client/ServeClient',
+                request_serializer=client__pb2.ServeClientArgs.SerializeToString,
+                response_deserializer=client__pb2.ServeClientReply.FromString,
                 )
 
 
 class clientServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetLeader(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetLeaderInfo(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def Get(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def Set(self, request, context):
+    def ServeClient(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -66,29 +33,14 @@ class clientServicer(object):
 
 def add_clientServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetLeader': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetLeader,
-                    request_deserializer=client__pb2.GetLeaderRequest.FromString,
-                    response_serializer=client__pb2.GetLeaderResponse.SerializeToString,
-            ),
-            'GetLeaderInfo': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetLeaderInfo,
-                    request_deserializer=client__pb2.GetLeaderInfoRequest.FromString,
-                    response_serializer=client__pb2.GetLeaderInfoResponse.SerializeToString,
-            ),
-            'Get': grpc.unary_unary_rpc_method_handler(
-                    servicer.Get,
-                    request_deserializer=client__pb2.GetRequest.FromString,
-                    response_serializer=client__pb2.GetResponse.SerializeToString,
-            ),
-            'Set': grpc.unary_unary_rpc_method_handler(
-                    servicer.Set,
-                    request_deserializer=client__pb2.SetRequest.FromString,
-                    response_serializer=client__pb2.SetResponse.SerializeToString,
+            'ServeClient': grpc.unary_unary_rpc_method_handler(
+                    servicer.ServeClient,
+                    request_deserializer=client__pb2.ServeClientArgs.FromString,
+                    response_serializer=client__pb2.ServeClientReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'client.client', rpc_method_handlers)
+            'client', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -97,7 +49,7 @@ class client(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def GetLeader(request,
+    def ServeClient(request,
             target,
             options=(),
             channel_credentials=None,
@@ -107,59 +59,8 @@ class client(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/client.client/GetLeader',
-            client__pb2.GetLeaderRequest.SerializeToString,
-            client__pb2.GetLeaderResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def GetLeaderInfo(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/client.client/GetLeaderInfo',
-            client__pb2.GetLeaderInfoRequest.SerializeToString,
-            client__pb2.GetLeaderInfoResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def Get(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/client.client/Get',
-            client__pb2.GetRequest.SerializeToString,
-            client__pb2.GetResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def Set(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/client.client/Set',
-            client__pb2.SetRequest.SerializeToString,
-            client__pb2.SetResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/client/ServeClient',
+            client__pb2.ServeClientArgs.SerializeToString,
+            client__pb2.ServeClientReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -1,2 +1,2 @@
-current_term 6
-voted_for 0
+current_term 1985
+voted_for 2

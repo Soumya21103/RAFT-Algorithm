@@ -11,9 +11,11 @@ import time
 '''
 TODO: Stuff remaining to do
 1. implement Client 
-2. Debug connections done
-3. add code for dump and log
-4. implement leader lease
+2. Debug connections DONE
+3. add code for dump 
+5.  and log  DONE
+4. implement leader lease DONE
+6. code for recovery 
 
 NOTE:
 1. Didn't implement election timer properly
@@ -31,7 +33,7 @@ class NodeServicer(ngpc.NodeServicer):
     
     def requestLog(self, request: gnd.logRequest, context):
         #TODO: Something about election timer seems odd
-        print("DEBUG:",request.suffix)
+        # print("DEBUG:",request.suffix)
         self.pnode.set_lease_time(request.leader_lease)
         self.pnode.got_replicate_req.set()
         with self.pnode.m_lock:
@@ -63,7 +65,9 @@ class NodeServicer(ngpc.NodeServicer):
                 f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                 f.close()
                 pass
-            print(f"NODE {self.pnode.ID}: request log success from leader {request.l_id}")
+            with self.pnode.d_lock:
+                pass
+            self.pnode.dump(f"NODE {self.pnode.ID}: request log success from leader {request.l_id}")
             return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=ack,sucess=True)
         else:
             with self.pnode.m_lock:
@@ -71,7 +75,7 @@ class NodeServicer(ngpc.NodeServicer):
                 f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                 f.close()
                 pass
-            print(f"NODE {self.pnode.ID}: request log failiure from leader {request.l_id}")
+            self.pnode.dump(f"NODE {self.pnode.ID}: request log failiure from leader {request.l_id}")
             return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=0,sucess=False)
     
     def requestVote(self, request: gnd.voteRequest, context):
@@ -102,7 +106,7 @@ class NodeServicer(ngpc.NodeServicer):
                 f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                 f.close()
                 pass
-            print(f"NODE {self.pnode.ID}: Vote granted for Node {request.c_id} in term {current_term}.")
+            self.pnode.dump(f"NODE {self.pnode.ID}: Vote granted for Node {request.c_id} in term {current_term}.")
             l_time = self.pnode.get_lease_time()
             return gnd.voteResponse(term = current_term, granted=True,node_id=self.pnode.ID,lease_time=l_time if l_time > 1e-3 else 0)
         else:
@@ -111,7 +115,7 @@ class NodeServicer(ngpc.NodeServicer):
                     f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                     f.close()
                     pass
-            print(f"NODE {self.pnode.ID}: Vote denied for Node {request.c_id} in term {current_term}.")
+            self.pnode.dump(f"NODE {self.pnode.ID}: Vote denied for Node {request.c_id} in term {current_term}.")
             l_time = self.pnode.get_lease_time()
             return gnd.voteResponse(term = current_term, granted=False,node_id=self.pnode.ID,lease_time=l_time if l_time > 1e-3 else 0)
         
@@ -119,6 +123,13 @@ class NodeServicer(ngpc.NodeServicer):
 class Node:
     # if not sufficient load next 10 lines check for appends do till start of file is not reached
     # NOTE: ORDER OF LOCKS SHOULD ALWAYS BE Meta, Logs, Dumps NOT THE OTHER WAY AROUND
+    def dump(self,text: str):
+        with self.d_lock:
+            f = open(self.d_path,"a")
+            f.write(text+'\n')
+            f.close()
+            pass
+
     def __init__(self,node_id,storage_path,did_restart):
 
         self.ID: int = node_id
@@ -163,7 +174,6 @@ class Node:
             print(f"Directory '{self.storage_path}' already exists.")
 
         # create meta data
-
         f = open(self.m_path,"w")
         f.writelines(["current_term 0\n","voted_for -1\n"])
         f.close()
@@ -217,7 +227,7 @@ class Node:
             self.got_replicate_req.clear()
         else:
             self.state = STATES["can"]
-            print(f"Node {self.ID}: election timer timed out, Starting election.")
+            self.dump(f"Node {self.ID}: election timer timed out, Starting election.")
         return
     
     def candidate_task(self):
@@ -241,11 +251,11 @@ class Node:
         return
     
     def leader_task(self):
-        TIMEOUT = 5
+        TIMEOUT = 1
         lease_time = self.get_lease_time()
-        print(f"Leader NodeID: {self.ID} sending heartbeat & Renewing Lease")
+        self.dump(f"Leader NodeID: {self.ID} sending heartbeat & Renewing Lease")
         if lease_time < 1e-3:
-            print(f"Leader NodeID: {self.ID} lease renewal failed. Stepping Down.")
+            self.dump(f"Leader NodeID: {self.ID} lease renewal failed. Stepping Down.")
             self.state = STATES["fol"]
             return
         ret = asyncio.run(self.replication_call(lease_time))
@@ -273,7 +283,7 @@ class Node:
         return True
     
     async def election_handler(self,c_id,c_term,c_log_len,c_log_term) -> bool:
-        TIMEOUT = 5
+        TIMEOUT = 3
         votes   = 1
         res = await (asyncio.gather(*[
                     asyncio.create_task(
@@ -288,7 +298,7 @@ class Node:
             if i.term == c_term and i.granted:
                 self.vote_recieved.add(i.node_id)
             elif i.term > c_term:
-                print(f"NODE {self.ID}: becoming follower")
+                self.dump(f"NODE {self.ID}: becoming follower")
                 self.state = STATES["fol"]
                 with self.m_lock:
                     f = open(self.m_path,"w")
@@ -297,11 +307,11 @@ class Node:
                     pass
                 return False
             if len(self.vote_recieved) >= math.ceil((len(self.peers)+1)/2):
-                print("New Leader waiting for Old Leader Lease to timeout.")
+                self.dump("New Leader waiting for Old Leader Lease to timeout.")
                 req_time = self.get_lease_time()
                 if (req_time > 0):
                     time.sleep(req_time)
-                print(f"NODE {self.ID}: became the leader for term {c_term}.")
+                self.dump(f"NODE {self.ID}: became the leader for term {c_term}.")
                 self.state = STATES["lea"]
                 self.current_leader = self.ID
                 with self.l_lock:
@@ -332,9 +342,9 @@ class Node:
             if isinstance(e, grpc.Call):
                 if e.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
                     print(f"Timeout occurred for Node: {s_id}: ", e.details())
-                    return None
                 else:
                     print(f"UNable to connect to remote host",e.details())
+                return None
             
         return res
     
@@ -356,7 +366,7 @@ class Node:
         try:
             with grpc.insecure_channel(self.peers[f_id]) as channel:
                 stub = NodeStub(channel=channel)
-                print(suffix)
+                # print(suffix)
                 res = stub.requestLog(gnd.logRequest(
                     l_id=l_id,
                     c_term=current_term,
@@ -366,9 +376,9 @@ class Node:
                     leader_lease=lease_time
                 ))
         except grpc.RpcError as e:
-            print(f"Error occurred while sending RPC to Node {f_id}")
+            self.dump(f"Error occurred while sending RPC to Node {f_id}")
             return None
-        print(res)
+        # print(res)
         return self.log_response(res)
 
     def log_response(self,result : gnd.logResponse) -> bool:
@@ -393,12 +403,12 @@ class Node:
                 f.close()
                 pass
             self.state = STATES["fol"]
-            print(f"Node {self.ID} Stepping down")
+            self.dump(f"Node {self.ID} Stepping down")
         return True
     
     def commit_log_entries(self):
         # TODO: Implement this
-        print("commiting entries")
+        # print("commiting entries")
         def ack_len(length):
             return len([i for i in self.acked_length.keys() if self.acked_length[i] >= length])
         
@@ -415,14 +425,15 @@ class Node:
         min_acks = math.ceil((len(self.peers.keys())+1)/2)
         ready = list([i for i in range(1,log_len+1) if ack_len(i) > min_acks])
         
-        print("lenready::: ",len(ready),ready)
+        # print("lenready::: ",len(ready),ready)
         if (len(ready) != 0) and (max(ready) > self.commit_len):
             with self.l_lock:
-                print("lenready::: ",len(ready),ready,ready[0])
+                # print("lenready::: ",len(ready),ready,ready[0])
                 log_term = self.get_log_and_term_at_ind(max(ready) - 1)
                 pass
             if((log_term == current_term)):
                 self.commit_len = max(ready)
+                self.dump(f"Node {self.ID} (leader) committed the entry till {self.commit_len} to the state machine.")
         return
     
     def on_general_timeout(self):
@@ -495,10 +506,11 @@ class Node:
         '''Returns time remaining in exiration of leader lease and renews it if already expired 
         
         Only call if remaining lease time is needed DO NOT modify lease time directly'''
+        # TODO:(check) The leader needs to step down if it cannot reacquire the lease (did not receive a successful acknowledgment from the majority of followers within the lease duration).
         rem_time = self.leader_lease - time.time()
         if(self.renew_lease_time and self.state == STATES["lea"]):
-            print("renewing lease for leader")
-            self.leader_lease = time.time() + 10
+            self.dump("renewing lease for leader")
+            self.leader_lease = time.time() + 5
             with self.m_lock:
                 f = open(self.m_path,"r")
                 current_term = int(f.readline().split()[-1])
@@ -509,7 +521,7 @@ class Node:
                 f.write(f"NO_OP {current_term}\n")
                 f.close()
                 self.acked_length[self.ID], _ = self.get_log_len_and_term()
-            return 10
+            return 5
         return rem_time
     
     def set_lease_time(self, interval: float):

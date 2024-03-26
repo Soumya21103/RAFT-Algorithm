@@ -1,4 +1,8 @@
-./__pycache__
-./sta
-./stc
-./stp
+/__pycache__/
+/sta/
+/stc/
+/stp/
+/nodes/
+
+.idea/
+.vscode/

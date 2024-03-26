@@ -18,6 +18,7 @@ message voteResponse {
     int64 term = 1;
     bool granted = 2;
     int64 node_id = 3;
+    float lease_time = 4;
 }
 
 message logRequest {
@@ -27,6 +28,7 @@ message logRequest {
     int64 pref_term = 4;
     repeated string suffix = 6;
     int64 l_commit = 5;
+    float leader_lease = 7;
 }
 
 message logResponse {

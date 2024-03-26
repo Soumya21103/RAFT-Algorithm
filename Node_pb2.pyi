@@ -18,30 +18,34 @@ class voteRequest(_message.Message):
     def __init__(self, c_term: _Optional[int] = ..., c_id: _Optional[int] = ..., c_log_len: _Optional[int] = ..., c_log_term: _Optional[int] = ...) -> None: ...
 
 class voteResponse(_message.Message):
-    __slots__ = ("term", "granted", "node_id")
+    __slots__ = ("term", "granted", "node_id", "lease_time")
     TERM_FIELD_NUMBER: _ClassVar[int]
     GRANTED_FIELD_NUMBER: _ClassVar[int]
     NODE_ID_FIELD_NUMBER: _ClassVar[int]
+    LEASE_TIME_FIELD_NUMBER: _ClassVar[int]
     term: int
     granted: bool
     node_id: int
-    def __init__(self, term: _Optional[int] = ..., granted: bool = ..., node_id: _Optional[int] = ...) -> None: ...
+    lease_time: float
+    def __init__(self, term: _Optional[int] = ..., granted: bool = ..., node_id: _Optional[int] = ..., lease_time: _Optional[float] = ...) -> None: ...
 
 class logRequest(_message.Message):
-    __slots__ = ("l_id", "c_term", "pref_len", "pref_term", "suffix", "l_commit")
+    __slots__ = ("l_id", "c_term", "pref_len", "pref_term", "suffix", "l_commit", "leader_lease")
     L_ID_FIELD_NUMBER: _ClassVar[int]
     C_TERM_FIELD_NUMBER: _ClassVar[int]
     PREF_LEN_FIELD_NUMBER: _ClassVar[int]
     PREF_TERM_FIELD_NUMBER: _ClassVar[int]
     SUFFIX_FIELD_NUMBER: _ClassVar[int]
     L_COMMIT_FIELD_NUMBER: _ClassVar[int]
+    LEADER_LEASE_FIELD_NUMBER: _ClassVar[int]
     l_id: int
     c_term: int
     pref_len: int
     pref_term: int
     suffix: _containers.RepeatedScalarFieldContainer[str]
     l_commit: int
-    def __init__(self, l_id: _Optional[int] = ..., c_term: _Optional[int] = ..., pref_len: _Optional[int] = ..., pref_term: _Optional[int] = ..., suffix: _Optional[_Iterable[str]] = ..., l_commit: _Optional[int] = ...) -> None: ...
+    leader_lease: float
+    def __init__(self, l_id: _Optional[int] = ..., c_term: _Optional[int] = ..., pref_len: _Optional[int] = ..., pref_term: _Optional[int] = ..., suffix: _Optional[_Iterable[str]] = ..., l_commit: _Optional[int] = ..., leader_lease: _Optional[float] = ...) -> None: ...
 
 class logResponse(_message.Message):
     __slots__ = ("f_id", "term", "ack", "sucess")

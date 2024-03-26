@@ -237,7 +237,7 @@ class Node:
         with self.l_lock:
             log_len, last_term = self.get_log_len_and_term()
             pass
-        ret = asyncio.run(self.election_handler(self.ID,current_term,log_len,last_term)) 
+        ret = asyncio.run(self.election_handler(self.ID,current_term,log_len,last_term),debug=True) 
         return
     
     def leader_task(self):
@@ -248,7 +248,7 @@ class Node:
             print(f"Leader NodeID: {self.ID} lease renewal failed. Stepping Down.")
             self.state = STATES["fol"]
             return
-        ret = asyncio.run(self.replication_call(lease_time))
+        ret = asyncio.run(self.replication_call(lease_time),debug=True)
         if ret == False:
             return
         if self.got_broadcast_req.wait(TIMEOUT):
@@ -413,16 +413,14 @@ class Node:
             pass
 
         min_acks = math.ceil((len(self.peers.keys())+1)/2)
-        ready = list([i for i in range(1,log_len+1) if ack_len(i) > min_acks])
+        ready = [i for i in range(1,log_len+1) if ack_len(i) > min_acks]
         
-        print("lenready::: ",len(ready),ready)
-        if (len(ready) != 0) and (max(ready) > self.commit_len):
-            with self.l_lock:
-                print("lenready::: ",len(ready),ready,ready[0])
-                log_term = self.get_log_and_term_at_ind(max(ready) - 1)
-                pass
-            if((log_term == current_term)):
-                self.commit_len = max(ready)
+        with self.l_lock:
+            print("lenready::: ",ready)
+            log_term = self.get_log_and_term_at_ind(max(ready) - 1)
+            pass
+        if (len(ready) != 0) and (max(ready) > self.commit_len) and (log_term == current_term):
+            self.commit_len = max(ready)
         return
     
     def on_general_timeout(self):
@@ -517,5 +515,5 @@ class Node:
         self.leader_lease = time.time() + interval
 
 if __name__ == "__main__":
-    Node(node_id=int(sys.argv[1]),storage_path=sys.argv[2],did_restart=False).start_server()
+    Node(node_id=1,storage_path="./nodes",did_restart=False).start_server()
 

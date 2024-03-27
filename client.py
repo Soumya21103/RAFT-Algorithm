@@ -30,15 +30,19 @@ def main():
 
         if flag == 1:
             channel = grpc.insecure_channel(NODE_LIST[0])
-            # create a stub
             stub = client__pb2_grpc.clientStub(channel)
-            # create a request
             response = stub.ServeClient(client__pb2.ServeClientArgs(Request=command))
-            print("Data: ",response.Data)
+            print("Data: ", response.Data)
             print("LeaderID: ", response.LeaderID)
             print("Success: ", response.Success)
         else:
             print("Invalid Command")
+
+
+class ClientServicer(client__pb2_grpc.clientServicer):
+    def ServeClient(self, request, context):
+        print("Request: ", request.Request)
+        return client__pb2.ServeClientResponse()
 
 
 if __name__ == "__main__":

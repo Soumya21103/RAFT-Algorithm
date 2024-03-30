@@ -2,6 +2,8 @@ import grpc
 import client_pb2 as client__pb2
 import client_pb2_grpc as client__pb2_grpc
 
+# server_address = 'localhost:50051'
+
 NODE_LIST = [
     "localhost:50051",
     "localhost:50052",
@@ -11,8 +13,21 @@ NODE_LIST = [
 ]
 
 
+class RaftClient:
+    def __init__(self, server_address):
+        self.server_address = server_address
+        self.channel = grpc.insecure_channel(server_address)
+        self.stub = client__pb2_grpc.clientStub(self.channel)
+
+    def servicer(self, request):
+        args = client__pb2.ServeClientArgs(Request=request)
+        reply = self.stub.ServeClient(args)
+        return reply.Data, reply.LeaderID, reply.Success
+
+
 def main():
-    # put a loop here to keep the client running
+    client = RaftClient(NODE_LIST[0]) #####
+
     while True:
         command = input("=> ")
         if command == "exit":
@@ -29,20 +44,12 @@ def main():
                 flag = 1
 
         if flag == 1:
-            channel = grpc.insecure_channel(NODE_LIST[0])
-            stub = client__pb2_grpc.clientStub(channel)
-            response = stub.ServeClient(client__pb2.ServeClientArgs(Request=command))
-            print("Data: ", response.Data)
-            print("LeaderID: ", response.LeaderID)
-            print("Success: ", response.Success)
+            data, lid, suc = client.servicer(command)
+            print("Data: ", data)
+            print("LeaderID: ", lid)
+            print("Success: ", suc)
         else:
             print("Invalid Command")
-
-
-class ClientServicer(client__pb2_grpc.clientServicer):
-    def ServeClient(self, request, context):
-        print("Request: ", request.Request)
-        return client__pb2.ServeClientResponse()
 
 
 if __name__ == "__main__":

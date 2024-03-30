@@ -1,35 +1,4 @@
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
-NODE 1: request log failiure from leader 0
+NODE 1: Vote granted for Node 0 in term 1.
 NODE 1: request log success from leader 0
 NODE 1: request log success from leader 0
 NODE 1: request log success from leader 0
@@ -50,106 +19,539 @@ NODE 1: request log success from leader 0
 NODE 1: request log success from leader 0
 NODE 1: request log success from leader 0
 NODE 1: request log success from leader 0
-NODE 1: Vote granted for Node 2 in term 2.
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
-NODE 1: request log success from leader 2
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+Node 1: election timer timed out, Starting election.
+New Leader waiting for Old Leader Lease to timeout.
+NODE 1: became the leader for term 2.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 134 to the state machine.
+Node 1 (leader) committed the entry till 135 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 136 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 137 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 138 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 139 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 140 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 141 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 142 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 143 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 144 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 145 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 146 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 147 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 148 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 149 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 150 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 151 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 152 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 153 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 154 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 156 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 157 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 158 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 159 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 160 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 161 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 162 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 163 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 164 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 165 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 166 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 167 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 168 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 169 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 170 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 171 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 172 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 173 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 174 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 175 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 176 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 177 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 178 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 179 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 180 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 181 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 182 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 183 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 184 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 185 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 186 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 187 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 188 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 189 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 190 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 191 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 192 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 193 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 194 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 195 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 196 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 197 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 198 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 199 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 200 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 201 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 202 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 203 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 204 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 205 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 206 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 207 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 208 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 209 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 210 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 211 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 212 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 213 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 214 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 215 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 216 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 217 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 218 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 219 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 220 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 221 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 222 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 223 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 224 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 225 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 226 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 227 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 228 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 229 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 230 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 231 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 232 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 233 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 234 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 235 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 236 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 237 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 238 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 239 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 240 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 241 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 242 to the state machine.
+renewing lease for leader
+Leader NodeID: 1 sending heartbeat & Renewing Lease
+Node 1 (leader) committed the entry till 243 to the state machine.
+NODE 1: Vote granted for Node 0 in term 3.
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: request log success from leader 0
+NODE 1: Vote granted for Node 2 in term 4.
 NODE 1: request log success from leader 2
 NODE 1: request log success from leader 2
 NODE 1: request log success from leader 2

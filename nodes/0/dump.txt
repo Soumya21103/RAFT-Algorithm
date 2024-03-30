@@ -1,106 +1,258 @@
-NODE 0: Vote granted for Node 2 in term 2.
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
-NODE 0: request log failiure from leader 2
+NODE 0: Vote granted for Node 1 in term 2.
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log failiure from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+NODE 0: request log success from leader 1
+Node 0: election timer timed out, Starting election.
+New Leader waiting for Old Leader Lease to timeout.
+NODE 0: became the leader for term 3.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 244 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 245 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 246 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 247 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 248 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 249 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 250 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 251 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 252 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 253 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 254 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 255 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 256 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 257 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 258 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 259 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 260 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 261 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 262 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 263 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 264 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 265 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 266 to the state machine.
+renewing lease for leader
+Leader NodeID: 0 sending heartbeat & Renewing Lease
+Node 0 (leader) committed the entry till 267 to the state machine.
+NODE 0: Vote granted for Node 2 in term 4.
+NODE 0: request log success from leader 2
+NODE 0: request log success from leader 2
+NODE 0: request log success from leader 2
 NODE 0: request log success from leader 2
 NODE 0: request log success from leader 2
 NODE 0: request log success from leader 2

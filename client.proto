@@ -10,6 +10,6 @@ message ServeClientArgs {
 
 message ServeClientReply {
   string Data = 1;
-  string LeaderID = 2;
+  int64 LeaderID = 2;
   bool Success = 3;
 }

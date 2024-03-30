@@ -3,19 +3,21 @@ import threading, json, math, random
 import Node_pb2_grpc as ngpc
 from Node_pb2_grpc import NodeStub
 from concurrent import futures
+import client_pb2_grpc as cgpc
 import Node_pb2 as gnd
+import client_pb2 as cl
 import grpc
 import sys
 import time
 
 '''
 TODO: Stuff remaining to do
-1. implement Client 
+1. implement Client DONE
 2. Debug connections DONE
-3. add code for dump 
+3. TODO: add code for dump
 5.  and log  DONE
 4. implement leader lease DONE
-6. code for recovery 
+6. code for recovery #done
 
 NOTE:
 1. Didn't implement election timer properly
@@ -26,6 +28,36 @@ STATES = {
     "lea": 2
 }
 
+class ClientServiser(cgpc.clientServicer):
+    def __init__(self,pnode) -> None:
+        super().__init__()
+        self.pnode: Node = pnode
+
+    
+    def ServeClient(self, request: cl.ServeClientArgs, context):
+        print("recieved request")
+        if self.pnode.state == STATES["lea"]:
+            s = request.Request.split()
+            if s[0] == "set":
+                with self.pnode.m_lock:
+                    f = open(self.pnode.m_path,"r")
+                    current_term = int(f.readline().split()[-1])
+                    f.close()
+                    pass
+                with self.pnode.l_lock:
+                    f = open(self.pnode.l_path,"a")
+                    f.write(f"SET {s[1]} {s[2]} {current_term}\n")
+                    f.close()
+                    self.pnode.acked_length[self.pnode.ID], _ = self.pnode.get_log_len_and_term()
+                    pass
+            elif s[0] == "get":
+                with self.pnode.l_lock:
+                    res = self.pnode.get_latest_key_value(s[1])
+                    pass
+                return cl.ServeClientReply(Data=res,LeaderID=str(self.pnode.ID),Success=True)
+            return cl.ServeClientReply(Data=None,LeaderID=str(self.pnode.ID),Success=True)
+        return cl.ServeClientReply(Data=None,LeaderID=str(self.pnode.current_leader),Success=False)
+    
 class NodeServicer(ngpc.NodeServicer):
     def __init__(self,parent_node) -> None:
         super().__init__()
@@ -137,6 +169,7 @@ class Node:
         self.m_path = os.path.join(self.storage_path,"metadata.txt")
         self.l_path = os.path.join(self.storage_path,"logs.txt")
         self.d_path = os.path.join(self.storage_path,"dump.txt")
+        self.c_path = "client_service_port.json"
         self.peers = None
 
         self.m_lock = threading.Lock()
@@ -150,6 +183,7 @@ class Node:
         self.leader_lease = 0
         self.got_replicate_req = threading.Event()
         self.got_broadcast_req = threading.Event()
+        self.updated_commit_len = threading.Event()
 
         self.vote_recieved = set()
         self.sent_length  = dict()
@@ -163,6 +197,22 @@ class Node:
     
     def recover_session(self):
         # TODO: implement later
+        # if not os.path.exists(self.storage_path):
+        #     os.mkdir(self.storage_path)
+        #     print(f"Directory '{self.storage_path}' created successfully.")
+        # else:
+        #     print(f"Directory '{self.storage_path}' already exists.")
+
+        # # create meta data
+        # f = open(self.m_path,"w")
+        # f.writelines(["current_term 0\n","voted_for -1\n"])
+        # f.close()
+
+        # create logs and dump
+        # f = open(self.l_path,"w")
+        # f.close()
+        # f = open(self.d_path,"w")
+        # f.close()
         return
     def create_session(self):
 
@@ -199,6 +249,10 @@ class Node:
         
         try:
             self.socket = self.peers[self.ID]
+            f = open(self.c_path,"r")
+            temp = json.load(f)
+            f.close()
+            self.socket_c = temp[str(self.ID)]
         except:
             raise IndexError("could not file ID in peers")
         
@@ -206,16 +260,21 @@ class Node:
     
     def start_server(self):
         tasks = [self.follower_task,self.candidate_task,self.leader_task]
-
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        server_c = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         ngpc.add_NodeServicer_to_server(NodeServicer(self),server)
+        cgpc.add_clientServicer_to_server(ClientServiser(self),server_c)
         server.add_insecure_port(self.socket)
+        server_c.add_insecure_port(self.socket_c)
+        print(self.socket_c)
         server.start()
+        server_c.start()
         try:
             while True:
                 tasks[self.state]()
         except KeyboardInterrupt as e:
             server.stop(0)
+            server_c.stop(0)
             print("closing_server")
 
         server.wait_for_termination()
@@ -433,6 +492,7 @@ class Node:
                 pass
             if((log_term == current_term)):
                 self.commit_len = max(ready)
+                self.updated_commit_len.set()
                 self.dump(f"Node {self.ID} (leader) committed the entry till {self.commit_len} to the state machine.")
         return
     
@@ -474,9 +534,22 @@ class Node:
         f.close()
         return ret
     
+    def get_latest_key_value(self,key: str) -> str:
+        f = open(self.l_path,"r")
+        c = ''
+        ret = None
+        for j in range(self.commit_len):
+            c = f.readline()
+            if c.startswith("SET"):
+                x = c.split()
+                if x[1] == key:
+                    ret = x[2]
+        f.close()
+        return ret
+    
     def append_entries(self,p_len,l_com,suffix: list[str]):
         #TODO: Implement this
-        print("appending entries")
+        # print("appending entries")
         with self.l_lock:
             log_len, _ = self.get_log_len_and_term()
 
@@ -521,6 +594,7 @@ class Node:
                 f.write(f"NO_OP {current_term}\n")
                 f.close()
                 self.acked_length[self.ID], _ = self.get_log_len_and_term()
+                pass
             return 5
         return rem_time
     
@@ -529,5 +603,5 @@ class Node:
         self.leader_lease = time.time() + interval
 
 if __name__ == "__main__":
-    Node(node_id=int(sys.argv[1]),storage_path=sys.argv[2],did_restart=False).start_server()
+    Node(node_id=int(sys.argv[1]),storage_path=sys.argv[2],did_restart=sys.argv[3]).start_server()
 

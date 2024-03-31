@@ -35,9 +35,10 @@ class ClientServiser(cgpc.clientServicer):
 
     
     def ServeClient(self, request: cl.ServeClientArgs, context):
-        print("recieved request")
         if self.pnode.state == STATES["lea"]:
             s = request.Request.split()
+            self.pnode.dump(f"Node {self.pnode.ID} (leader) received an \"{s}\" request.")
+
             if s[0] == "set":
                 with self.pnode.m_lock:
                     f = open(self.pnode.m_path,"r")
@@ -107,7 +108,7 @@ class NodeServicer(ngpc.NodeServicer):
                 f.writelines([f"current_term {current_term}\n",f"voted_for {voted_for}\n"])
                 f.close()
                 pass
-            self.pnode.dump(f"NODE {self.pnode.ID}: request log failiure from leader {request.l_id}")
+            self.pnode.dump(f"NODE {self.pnode.ID}: request log failure from leader {request.l_id}")
             return gnd.logResponse(f_id=self.pnode.ID,term=current_term,ack=0,sucess=False)
     
     def requestVote(self, request: gnd.voteRequest, context):
@@ -312,9 +313,9 @@ class Node:
     def leader_task(self):
         TIMEOUT = 1
         lease_time = self.get_lease_time()
-        self.dump(f"Leader NodeID: {self.ID} sending heartbeat & Renewing Lease")
+        self.dump(f"Leader {self.ID} sending heartbeat & Renewing Lease")
         if lease_time < 1e-3:
-            self.dump(f"Leader NodeID: {self.ID} lease renewal failed. Stepping Down.")
+            self.dump(f"Leader {self.ID} lease renewal failed. Stepping Down.")
             self.state = STATES["fol"]
             return
         ret = asyncio.run(self.replication_call(lease_time))
@@ -462,7 +463,7 @@ class Node:
                 f.close()
                 pass
             self.state = STATES["fol"]
-            self.dump(f"Node {self.ID} Stepping down")
+            self.dump(f"NODE {self.ID} Stepping down")
         return True
     
     def commit_log_entries(self):
@@ -493,7 +494,10 @@ class Node:
             if((log_term == current_term)):
                 self.commit_len = max(ready)
                 self.updated_commit_len.set()
-                self.dump(f"Node {self.ID} (leader) committed the entry till {self.commit_len} to the state machine.")
+                if (self.state == STATES["lea"]):
+                    self.dump(f"Node {self.ID} (leader) committed the entry till {self.commit_len} to the state machine.")
+                elif (self.state == STATES["fol"]):
+                    self.dump(f"Node {self.ID} (follower) committed the entry till {self.commit_len} to the state machine.")
         return
     
     def on_general_timeout(self):
@@ -566,6 +570,9 @@ class Node:
             pass
         if l_com > self.commit_len:
             self.commit_len = l_com
+            self.dump(f"Node {self.ID} accepted AppendEntries RPC from {leader id}.")
+        else:
+            self.dump(f"Node {self.ID} rejected AppendEntries RPC from {leader id}.")
         return
     
     def delete_log_from_index(self,index):

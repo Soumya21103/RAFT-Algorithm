@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service client {
+    rpc ServeClient (ServeClientArgs) returns (ServeClientReply) {}
+}
+
+message ServeClientArgs {
+  string Request = 1;
+}
+
+message ServeClientReply {
+  string Data = 1;
+  int64 LeaderID = 2;
+  bool Success = 3;
+}

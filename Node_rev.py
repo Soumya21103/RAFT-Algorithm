@@ -570,9 +570,7 @@ class Node:
             pass
         if l_com > self.commit_len:
             self.commit_len = l_com
-            self.dump(f"Node {self.ID} accepted AppendEntries RPC from {leader id}.")
-        else:
-            self.dump(f"Node {self.ID} rejected AppendEntries RPC from {leader id}.")
+        self.dump(f"Node {self.ID} (follower) committed the entry till {self.commit_len} to the state machine.")
         return
     
     def delete_log_from_index(self,index):
